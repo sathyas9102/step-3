@@ -1,0 +1,40 @@
+{% extends 'users/base_generic.html' %}
+
+{% block content %}
+  <h2>Daily Activity for Dove Department</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="task">Task:</label>
+      {{ form.task }}
+    </div>
+    <div>
+      <label for="dove_gel_pack">Dove Gel Pack Count:</label>
+      {{ form.dove_gel_pack }}
+    </div>
+    <div>
+      <label for="dove_count">Dove Count:</label>
+      {{ form.dove_count }}
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Daily Reports</h3>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Task</th>
+      <th>Dove Gel Pack</th>
+      <th>Dove Count</th>
+    </tr>
+    {% for report in daily_reports %}
+    <tr>
+      <td>{{ report.date }}</td>
+      <td>{{ report.task }}</td>
+      <td>{{ report.dove_gel_pack }}</td>
+      <td>{{ report.dove_count }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <a href="{% url 'users:export_excel_department' 'dove' %}">Export as Excel</a>
+{% endblock %}

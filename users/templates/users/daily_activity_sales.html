@@ -1,0 +1,46 @@
+{% extends 'users/base_generic.html' %}
+
+{% block content %}
+  <h2>Daily Activity for Sales Department</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="task">Task:</label>
+      {{ form.task }}
+    </div>
+    <div>
+      <label for="payments_collected">Payments Collected:</label>
+      {{ form.payments_collected }}
+    </div>
+    <div>
+      <label for="ads_sold">Number of Ads Sold:</label>
+      {{ form.ads_sold }}
+    </div>
+    <div>
+      <label for="leads_generated">Leads Generated:</label>
+      {{ form.leads_generated }}
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Daily Reports</h3>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Task</th>
+      <th>Payments Collected</th>
+      <th>Ads Sold</th>
+      <th>Leads Generated</th>
+    </tr>
+    {% for report in daily_reports %}
+    <tr>
+      <td>{{ report.date }}</td>
+      <td>{{ report.task }}</td>
+      <td>{{ report.payments_collected }}</td>
+      <td>{{ report.ads_sold }}</td>
+      <td>{{ report.leads_generated }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <a href="{% url 'users:export_excel_department' 'sales' %}">Export as Excel</a>
+{% endblock %}

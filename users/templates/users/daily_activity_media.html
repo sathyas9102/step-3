@@ -1,0 +1,46 @@
+{% extends 'users/base_generic.html' %}
+
+{% block content %}
+  <h2>Daily Activity for Media Department</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="task">Task:</label>
+      {{ form.task }}
+    </div>
+    <div>
+      <label for="advertisements">Number of Advertisements Created:</label>
+      {{ form.advertisements }}
+    </div>
+    <div>
+      <label for="payments_collected">Payments Collected:</label>
+      {{ form.payments_collected }}
+    </div>
+    <div>
+      <label for="magazine_pages">Magazine Pages Designed:</label>
+      {{ form.magazine_pages }}
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Daily Reports</h3>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Task</th>
+      <th>Advertisements</th>
+      <th>Payments Collected</th>
+      <th>Magazine Pages</th>
+    </tr>
+    {% for report in daily_reports %}
+    <tr>
+      <td>{{ report.date }}</td>
+      <td>{{ report.task }}</td>
+      <td>{{ report.advertisements }}</td>
+      <td>{{ report.payments_collected }}</td>
+      <td>{{ report.magazine_pages }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <a href="{% url 'users:export_excel_department' 'media' %}">Export as Excel</a>
+{% endblock %}

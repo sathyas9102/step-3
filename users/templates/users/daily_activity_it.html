@@ -1,0 +1,52 @@
+{% extends 'users/base_generic.html' %}
+
+{% block content %}
+  <h2>Daily Activity for IT Department</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="task">Task:</label>
+      {{ form.task }}
+    </div>
+    <div>
+      <label for="news_count">Number of News Published:</label>
+      {{ form.news_count }}
+    </div>
+    <div>
+      <label for="insta_followers">Number of New Followers on Instagram:</label>
+      {{ form.insta_followers }}
+    </div>
+    <div>
+      <label for="newsletter_subscriptions">Number of Newsletter Subscriptions:</label>
+      {{ form.newsletter_subscriptions }}
+    </div>
+    <div>
+      <label for="pages_designed">Number of Pages Designed:</label>
+      {{ form.pages_designed }}
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Daily Reports</h3>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Task</th>
+      <th>News Count</th>
+      <th>Followers</th>
+      <th>Newsletter Subscriptions</th>
+      <th>Pages Designed</th>
+    </tr>
+    {% for report in daily_reports %}
+    <tr>
+      <td>{{ report.date }}</td>
+      <td>{{ report.task }}</td>
+      <td>{{ report.news_count }}</td>
+      <td>{{ report.insta_followers }}</td>
+      <td>{{ report.newsletter_subscriptions }}</td>
+      <td>{{ report.pages_designed }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <a href="{% url 'users:export_excel_department' 'it' %}">Export as Excel</a>
+{% endblock %}

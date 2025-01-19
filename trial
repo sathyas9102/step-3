@@ -1,0 +1,26 @@
+@login_required
+def daily_activity(request, department_name):
+    user = request.user
+    today = date.today()
+
+    # If the user doesn't have a daily activity report yet, create one
+    try:
+        daily_report = DailyActivityReport.objects.get(user=user, date=date.today())
+    except DailyActivityReport.DoesNotExist:
+        daily_report = None
+
+    if request.method == 'POST':
+        form = DailyActivityReportForm(request.POST, instance=daily_report)
+
+        if form.is_valid():
+            activity_report = form.save(commit=False)
+            activity_report.user = user
+            activity_report.save()
+            messages.success(request, "Your daily activity report has been updated.")
+            return redirect('users:daily_activity')
+    else:
+        form = DailyActivityReportForm(instance=daily_report)
+
+    return render(request, 'users/daily_activity.html', {'form': form})
+
+# Forgot 
